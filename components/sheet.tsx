@@ -9,7 +9,7 @@ export default function SheetMobile() {
             <SheetTrigger>
                 <Menu width={40} height={40} />
             </SheetTrigger>
-            <SheetContent side='left'>
+            <SheetContent side='left' className='p-0 m-0 border-none rounded-2xl bg-[##1B1D37]'>
                 <Sidebar />
             </SheetContent>
         </Sheet>
