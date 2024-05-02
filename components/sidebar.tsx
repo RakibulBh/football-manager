@@ -15,6 +15,7 @@ export const Sidebar = () => {
         <div className="flex gap-x-2">
           <Plus />
           <p>Fixtures</p>
+          <p>Hi</p>
         </div>
       </div>
       <div>
