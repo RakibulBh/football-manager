@@ -5,8 +5,6 @@ import { Menu } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Home() {
-  console.log('hello world');
-
   return (
     <div className='h-full w-full flex'>
       <nav className='hidden lg:block w-[350px]'>

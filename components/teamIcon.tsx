@@ -6,7 +6,7 @@ type Types = {
 
 const Team: React.FC<Types> = ({ imageUrl }) => {
     return (  
-        <div className={`p-1 bg-[#7D69F4] w-32 h-32 rounded-full flex items-center justify-center`}>
+        <div className={`p-1 bg-[#7D69F4] w-30 h-30 md:w-32 md:h-32 rounded-full flex items-center justify-center`}>
             <Image alt="team-picture" width={80} height={80} src={imageUrl} />
         </div>
     );
