@@ -80,24 +80,14 @@ function MatchInfoPage() {
   return (
     <div className='space-y-24'>
       <div className='flex flex-col bg-[#725BF4] h-96'>
-        <button>
+        <button className='px-3'>
           <Link href='/'>
             <ArrowLeft width={50} height={50} />
           </Link>
         </button>
         <div className='flex flex-col items-center h-full'>
           <div className='flex w-11/12 flex-col justify-between flex-1'>
-            <MatchSummary />
-            {/* <div className='flex justify-between'>
-              <Team imageUrl='/inter.png' />
-              <div className='text-center'>
-                <p className='text-sm font-semibold lg:font-bold'>
-                  last match 07/05/2024
-                </p>
-                <p className='text-4xl lg:text-6xl font-bold'>1 : 0</p>
-              </div>
-              <Team imageUrl='/inter.png' />
-            </div> */}
+            <MatchSummary score='' />
             <div className='flex justify-between'>
               <p onClick={() => setTabs('overview')}>Overview</p>
               <p onClick={() => setTabs('stats')}>Stats</p>
