@@ -21,4 +21,19 @@ export const players = pgTable("players", {
     playerName: text("player_name").notNull(),
     playerGoals: integer("player_goals").default(0),
     playerAssists: integer("player_assists").default(0),
+    teamId: integer('team_id').references(() => teams.teamId),
 });
+
+export const teamsRelations = relations(teams, ({ many }) => ({
+  players: many(players, {
+    fields: [players.teamId],
+    references: [teams.teamId],
+  }),
+}));
+
+export const playersRelations = relations(players, ({ one }) => ({
+  team: one(teams, {
+    fields: [players.teamId],
+    references: [teams.teamId],
+  }),
+}));
