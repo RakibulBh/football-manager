@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <div className='h-full w-full flex'>
+    <div className=''>
       <nav className='hidden lg:block w-[350px]'>
         <Sidebar />
       </nav>
@@ -17,15 +17,15 @@ export default function Home() {
       </div>
       <main className='h-full flex-1 pt-4 px-4 flex flex-col gap-y-4'>
         <div className='p-4 flex justify-center w-full h-[200px] lg:h-[400px] bg-[#725BF4] rounded-lg'>
-         <MatchSummary/>
+          <MatchSummary />
         </div>
         <p className='text-xl font-bold'>Match history</p>
         <div className='flex-1 overflow-y-auto flex flex-col bg-[#1B1D37] rounded-t-2xl p-6'>
-          <MatchHistory/>
-          <MatchHistory/>
-          <MatchHistory/>
-          <MatchHistory/>
-          <MatchHistory/>
+          <MatchHistory />
+          <MatchHistory />
+          <MatchHistory />
+          <MatchHistory />
+          <MatchHistory />
         </div>
       </main>
     </div>
