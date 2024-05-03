@@ -86,9 +86,9 @@ function MatchInfoPage() {
           </Link>
         </button>
         <div className='flex flex-col items-center h-full'>
-          {/* <MatchSummary /> */}
           <div className='flex w-11/12 flex-col justify-between flex-1'>
-            <div className='flex justify-between'>
+            <MatchSummary />
+            {/* <div className='flex justify-between'>
               <Team imageUrl='/inter.png' />
               <div className='text-center'>
                 <p className='text-sm font-semibold lg:font-bold'>
@@ -97,7 +97,7 @@ function MatchInfoPage() {
                 <p className='text-4xl lg:text-6xl font-bold'>1 : 0</p>
               </div>
               <Team imageUrl='/inter.png' />
-            </div>
+            </div> */}
             <div className='flex justify-between'>
               <p onClick={() => setTabs('overview')}>Overview</p>
               <p onClick={() => setTabs('stats')}>Stats</p>

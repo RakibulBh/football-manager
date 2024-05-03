@@ -6,9 +6,11 @@ import Team from '@/components/team-icon';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 
+// 2560x1440
+
 export default function Home() {
   return (
-    <div className=''>
+    <div className='h-full w-full flex'>
       <nav className='hidden lg:block w-[350px]'>
         <Sidebar />
       </nav>
