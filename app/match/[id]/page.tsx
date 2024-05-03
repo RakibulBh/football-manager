@@ -86,10 +86,15 @@ function MatchInfoPage() {
           </Link>
         </button>
         <div className='flex flex-col items-center h-full'>
-          <div className='flex w-11/12 flex-col justify-between flex-1'>
-            <MatchSummary score='' />
+          <div className='flex w-3/5 flex-col justify-between flex-1'>
+            <MatchSummary score='1 - 0' />
             <div className='flex justify-between'>
-              <p onClick={() => setTabs('overview')}>Overview</p>
+              <p
+                onClick={() => setTabs('overview')}
+                className=' border-b-2 border-b-white'
+              >
+                Overview
+              </p>
               <p onClick={() => setTabs('stats')}>Stats</p>
               <p onClick={() => setTabs('line-up')}>Line-up</p>
             </div>
