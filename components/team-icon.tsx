@@ -1,15 +1,23 @@
-import Image from "next/image";
+import Image from 'next/image';
+import { ComponentProps } from 'react';
+import { twMerge } from 'tailwind-merge';
 
-type Types = {
-    imageUrl: string;
+interface TeamComponent extends ComponentProps<'div'> {
+  imageUrl: string;
 }
 
-const Team: React.FC<Types> = ({ imageUrl }) => {
-    return (  
-        <div className={`p-1 bg-[#7D69F4] w-30 h-30 md:w-32 md:h-32 rounded-full flex items-center justify-center`}>
-            <Image alt="team-picture" width={80} height={80} src={imageUrl} />
-        </div>
-    );
-}
+const Team = ({ imageUrl, className, children, ...rest }: TeamComponent) => {
+  return (
+    <div
+      className={twMerge(
+        'bg-[#7D69F4] w-32 h-32 rounded-full flex items-center justify-center',
+        className
+      )}
+      {...rest}
+    >
+      <Image alt='team-picture' width={80} height={80} src={imageUrl} />
+    </div>
+  );
+};
 
 export default Team;
