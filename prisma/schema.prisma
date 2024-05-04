@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Player {
-  id            Int            @id @default(autoincrement())
+  id            String         @id @default(uuid())
   name          String
   goals         Int            @default(0)
   assists       Int            @default(0)
@@ -17,23 +17,26 @@ model Player {
 }
 
 model Match {
-  id           Int            @id @default(autoincrement())
-  date         DateTime       @default(now())
-  location     String         @db.VarChar(255)
-  team1        Registration[] @relation("Team1")
-  team2        Registration[] @relation("Team2")
-  Registration Registration[]
+  id            String         @id @default(uuid())
+  date          DateTime       @default(now())
+  location      String         @db.VarChar(255)
+  registrations Registration[]
+}
+
+model Team {
+  id            String         @id @default(uuid())
+  name          String
+  registrations Registration[]
 }
 
 model Registration {
-  id       Int    @id @default(autoincrement())
-  playerId Int
-  player   Player @relation(fields: [playerId], references: [id])
-  matchId  Int
-  match    Match  @relation(fields: [matchId], references: [id])
-  team     String
-  Match    Match  @relation(fields: [matchId], references: [id])
-  Match    Match  @relation(fields: [matchId], references: [id])
+  matchId  String
+  playerId String
+  teamId   String
 
-  @@unique([playerId, matchId])
+  player Player @relation(fields: [playerId], references: [id])
+  match  Match  @relation(fields: [matchId], references: [id])
+  team   Team   @relation(fields: [teamId], references: [id])
+
+  @@id([matchId, playerId, teamId])
 }
