@@ -8,7 +8,8 @@ import Image from 'next/image';
 
 // 2560x1440
 
-export default function Home() {
+const Home = () => {
+  
   return (
     <div className='h-full w-full flex'>
       <nav className='hidden lg:block w-[350px]'>
@@ -22,14 +23,10 @@ export default function Home() {
           <MatchSummary score='' />
         </div>
         <p className='text-xl font-bold'>Match history</p>
-        <div className='flex-1 overflow-y-auto flex flex-col bg-[#1B1D37] rounded-t-2xl p-6'>
-          <MatchHistory />
-          <MatchHistory />
-          <MatchHistory />
-          <MatchHistory />
-          <MatchHistory />
-        </div>
+        <MatchHistory />
       </main>
     </div>
   );
 }
+
+export default Home;
