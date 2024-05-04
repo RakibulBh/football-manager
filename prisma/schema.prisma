@@ -9,34 +9,31 @@ datasource db {
 }
 
 model Player {
-  id            String         @id @default(uuid())
-  name          String
-  goals         Int            @default(0)
-  assists       Int            @default(0)
-  registrations Registration[]
+  id      String @id @default(uuid())
+  name    String
+  goals   Int    @default(0)
+  assists Int    @default(0)
+}
+
+model Goal {
+  id       String @id @default(uuid())
+  playerId String
+  matchId  String
 }
 
 model Match {
-  id            String         @id @default(uuid())
-  date          DateTime       @default(now())
-  location      String         @db.VarChar(255)
-  registrations Registration[]
-}
+  id       String   @id @default(uuid())
+  date     DateTime @default(now())
+  location String   @db.VarChar(255)
 
-model Team {
-  id            String         @id @default(uuid())
-  name          String
-  registrations Registration[]
+  teamA String @default("Team A")
+  teamB String @default("Team B")
 }
 
 model Registration {
-  matchId  String
-  playerId String
-  teamId   String
+  matchId       String
+  userId        String
+  assigned_team String
 
-  player Player @relation(fields: [playerId], references: [id])
-  match  Match  @relation(fields: [matchId], references: [id])
-  team   Team   @relation(fields: [teamId], references: [id])
-
-  @@id([matchId, playerId, teamId])
+  @@id([matchId, userId])
 }
