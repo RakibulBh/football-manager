@@ -1,39 +1,34 @@
-import { date, integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { PrimaryKey, date, integer, pgTable, primaryKey, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
-export const matches = pgTable("matches", {
-    matchId: uuid("match_id").primaryKey(),
-    matchDate: date("match_date").defaultNow(),
-    matchLocation: text("match_location").notNull(),
-    teamA: uuid("team_a"),
-    teamB: uuid("team_b"),
+export const players = pgTable('players', {
+  id: uuid('id').primaryKey().defaultRandom().notNull(),
+  name: text('name').notNull(),
+  playerImg: varchar('player_img', { length: 256 }),
+  goals: integer('goals').notNull().default(0),
+  assists: integer('assists').notNull().default(0),
 });
 
-export const teams = pgTable("teams", {
-    teamId: uuid("team_id").primaryKey(),
-    teamName: text("team_name").notNull(),
-    teamLogo: text("team_logo"),
+export const matches = pgTable('matches', {
+  id: uuid('id').primaryKey().defaultRandom().notNull(),
+  location: text('location').notNull(),
+  matchDate: timestamp('match_date', { withTimezone: true }).notNull(),
+  team1Id: integer('team1_id').notNull().references(() => teams.id),
+  team2Id: integer('team2_id').notNull().references(() => teams.id),
 });
 
-export const players = pgTable("players", {
-    playerId: uuid("player_id").primaryKey(),
-    playerImg: text("player_img"),
-    playerName: text("player_name").notNull(),
-    playerGoals: integer("player_goals").default(0),
-    playerAssists: integer("player_assists").default(0),
-    teamId: integer('team_id').references(() => teams.teamId),
+export const teams = pgTable('teams', {
+  id: uuid('id').primaryKey().defaultRandom().notNull(),
 });
 
-export const teamsRelations = relations(teams, ({ many }) => ({
-  players: many(players, {
-    fields: [players.teamId],
-    references: [teams.teamId],
-  }),
-}));
-
-export const playersRelations = relations(players, ({ one }) => ({
-  team: one(teams, {
-    fields: [players.teamId],
-    references: [teams.teamId],
-  }),
-}));
+export const playerRegistrations = pgTable('player_registrations', 
+  {
+    playerId: integer('player_id').notNull().references(() => players.id),
+    teamId: integer('team_id').notNull().references(() => teams.id),
+    matchId: integer('match_id').notNull().references(() => matches.id),
+  },
+  table => {
+    return {
+      pk: primaryKey({columns: [table.playerId, table.teamId, table.matchId]})
+    }
+  }
+);
