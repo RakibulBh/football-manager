@@ -1,15 +1,10 @@
-import Image from "next/image"
-import Link from "next/link"
-
-import { getPlayers } from "@/prisma/queries";
+import Image from "next/image";
+import Link from "next/link";
 
 export const MatchHistory = async () => {
-
-  const matches = await getPlayers();
-
   return (
-    <div className='flex-1 overflow-y-auto flex flex-col bg-[#1B1D37] rounded-t-2xl p-6'>
-      {matches && matches.map((match) => (
+    <div className="flex-1 overflow-y-auto flex flex-col bg-[#1B1D37] rounded-t-2xl p-6">
+      {/* {matches && matches.map((match) => (
         <Link href={`match/${match.id}`}>
           <div className="rounded-2xl hover:cursor-pointer hover:bg-[#31334B] transition-colors ease-in-out p-5 w-full flex justify-between items-center">
             <div className="flex gap-x-5 items-center">
@@ -25,7 +20,7 @@ export const MatchHistory = async () => {
             </div>
           </div>
         </Link>
-      ))}
+      ))} */}
     </div>
-  )
-}
+  );
+};
