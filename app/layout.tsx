@@ -24,15 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(poppins.className, "flex")}>
-        <div className="hidden lg:block w-[350px]">
-          <Sidebar />
-        </div>
-        <div className="h-full lg:hidden pt-3 px-2 flex flex-col items-center">
-          <SheetMobile />
-        </div>
-        {children}
-      </body>
+      <body className={cn(poppins.className, "flex")}>{children}</body>
     </html>
   );
 }
