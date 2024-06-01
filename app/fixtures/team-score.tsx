@@ -1,11 +1,14 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
+import { createClient } from '@/utils/supabase/server';
 
-export default function TeamScore() {
+export default async function TeamScore({ id }: { id: number }) {
+  const supabase = createClient();
+
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-x-4">
-        <Image alt="Team logo" width={40} height={40} src="/inter.png" />
+    <div className='flex items-center justify-between'>
+      <div className='flex items-center gap-x-4'>
+        <Image alt='Team logo' width={40} height={40} src='/inter.png' />
         <h1>Sabit fc</h1>
       </div>
       <div>
