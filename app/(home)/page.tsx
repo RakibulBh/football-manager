@@ -2,7 +2,7 @@ import { MatchHistory } from "@/components/match-history";
 import MatchSummary from "@/components/match-summary";
 import SheetMobile from "@/components/sheet";
 import { Sidebar } from "@/components/sidebar";
-import Team from "@/components/team-icon";
+import Team from "@/app/fixtures/team-icon";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 

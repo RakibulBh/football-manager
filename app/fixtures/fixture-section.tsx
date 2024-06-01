@@ -1,13 +1,20 @@
 import React from "react";
 import MatchFixture from "./match-fixture";
 
-export default function FixtureSection({ time }: { time: string }) {
+export default function FixtureSection({
+  time,
+  matches,
+}: {
+  time: string;
+  matches: any[];
+}) {
   return (
     <div className="space-y-2">
       <p className="font-semibold">{time}</p>
       <div className="flex flex-col gap-y-4">
-        <MatchFixture />
-        <MatchFixture />
+        {matches.map((match) => (
+          <MatchFixture key={match.id} match={match} />
+        ))}
       </div>
     </div>
   );

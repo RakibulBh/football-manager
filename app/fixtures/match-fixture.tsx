@@ -1,7 +1,7 @@
 import React from "react";
-import TeamScore from "./team-score";
+import TeamScore from "@/app/fixtures/team-score";
 
-export default function MatchFixture() {
+export default function MatchFixture({ match }: { match: any }) {
   return (
     <div className="w-full h-48 bg-[#1B1D37] rounded-md px-1">
       <div className="border-b-[1px] h-[35%] border-[#535360] p-2">
@@ -14,7 +14,7 @@ export default function MatchFixture() {
           <TeamScore />
         </div>
         <div className="w-1/2 flex h-full items-center justify-center">
-          <p>20/05/23 20:00</p>
+          <p>{match.date}</p>
         </div>
       </div>
     </div>
