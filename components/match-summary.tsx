@@ -1,5 +1,5 @@
 import React from "react";
-import Team from "../app/fixtures/team-icon";
+import Team from "./team-icon";
 
 type MatchSummaryProps = {
   score: string;
