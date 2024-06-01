@@ -10,8 +10,11 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { CircleUser } from "lucide-react";
+import { signOut } from "@/app/login/actions";
+import LogoutButton from "./signout";
+import Link from "next/link";
 
-export default function Dropdown() {
+export default function Dropdown({ user }: { user: any }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,9 +24,19 @@ export default function Dropdown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Admin only</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {user ? user.email : "Admin only"}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        <DropdownMenuItem className="flex items-center justify-center">
+          {user ? (
+            <LogoutButton />
+          ) : (
+            <Link href="/login">
+              <Button>Login</Button>
+            </Link>
+          )}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

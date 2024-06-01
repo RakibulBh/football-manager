@@ -2,8 +2,14 @@ import { Calendar, CircleUser, Plus, Users } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Dropdown from "./dropdown";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export const Sidebar = () => {
+export const Sidebar = async () => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+
   const links = [
     {
       name: "Fixtures",
@@ -23,7 +29,7 @@ export const Sidebar = () => {
   ];
 
   return (
-    <div className="w-full rounded-r-2xl py-8 px-4 h-full bg-[#1B1D37] flex flex-col">
+    <div className="w-[350px] rounded-r-2xl py-8 px-4 h-full bg-[#1B1D37] flex flex-col">
       <div className="flex flex-col gap-y-20">
         <p className="font-bold text-2xl text-center">StepneyFootball</p>
         <div className="flex flex-col gap-y-5 px-6">
@@ -37,7 +43,7 @@ export const Sidebar = () => {
           ))}
         </div>
         <div className="flex items-center justify-center gap-x-4">
-          <Dropdown />
+          <Dropdown user={data?.user} />
         </div>
       </div>
     </div>

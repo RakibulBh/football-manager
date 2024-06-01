@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { Sidebar } from "@/components/sidebar";
+import SheetMobile from "@/components/sheet";
+import { cn } from "@/lib/utils";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,7 +24,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={cn(poppins.className, "flex")}>
+        <div className="hidden lg:block w-[350px]">
+          <Sidebar />
+        </div>
+        <div className="h-full lg:hidden pt-3 px-2 flex flex-col items-center">
+          <SheetMobile />
+        </div>
+        {children}
+      </body>
     </html>
   );
 }
