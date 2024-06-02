@@ -24,8 +24,8 @@ export default function Dropdown({ user }: { user: any }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>
-          {user ? user.email : "Admin only"}
+        <DropdownMenuLabel className="text-xs">
+          {user ? user.email : "Not logged on"}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex items-center justify-center">

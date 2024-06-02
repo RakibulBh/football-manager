@@ -41,7 +41,6 @@ export const Sidebar = async () => {
         <p className="font-bold text-2xl text-center">StepneyFootball</p>
         <div className="flex flex-col gap-y-5 px-6">
           {links.map((link, index) => {
-            // Check if the link should be displayed for the user
             if (link.admin && !data?.user) {
               return null;
             }

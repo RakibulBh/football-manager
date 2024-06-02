@@ -6,7 +6,7 @@ import { ArrowLeft, Info, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { MatchInfoText } from "./match-info-text";
-import Team from "@/app/fixtures/team-icon";
+import Team from "@/components/team-icon";
 import { useState } from "react";
 
 type TabsOptions = "overview" | "stats" | "line-up";
@@ -80,7 +80,7 @@ function MatchInfoPage() {
   console.log(activeTab);
 
   return (
-    <div className="space-y-24">
+    <div className="space-y-24 w-full h-full">
       <div className="flex flex-col bg-[#725BF4] h-96">
         <div>
           <button className="px-3">

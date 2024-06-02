@@ -58,7 +58,10 @@ export function FixtureDialog() {
             placeholder="Date"
           />
           <div className="w-full flex justify-end mt-4">
-            <SubmitButton />
+            <SubmitButton
+              text="Create fixture"
+              pendingText="Creating fixture"
+            />
           </div>
         </form>
       </DialogContent>
