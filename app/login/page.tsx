@@ -7,6 +7,7 @@ import { redirect, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import SheetMobile from "@/components/sheet";
 import { Sidebar } from "@/components/sidebar";
+import SubmitButton from "@/components/submitButton";
 
 export default async function LoginPage() {
   const supabase = createClient();
@@ -39,7 +40,7 @@ export default async function LoginPage() {
               .
             </p>
           </div>
-          <form className="flex flex-col gap-y-4">
+          <form action={login} className="flex flex-col gap-y-4">
             <Label className="text-[#725BF4]" htmlFor="email">
               Email:
             </Label>
@@ -62,7 +63,7 @@ export default async function LoginPage() {
               type="password"
               required
             />
-            <Button formAction={login}>Login</Button>
+            <SubmitButton pendingText="Logging in" text="Login" />
           </form>
         </div>
       </div>

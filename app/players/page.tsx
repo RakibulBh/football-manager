@@ -6,9 +6,9 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { createPlayer, getPlayers } from "./actions";
-import PlayerCard from "./player-card";
 import { redirect } from "next/navigation";
 import AddPlayerForm from "./addPlayerForm";
+import { PlayerHoverCard } from "./player-card";
 
 export default async function Players() {
   const supabase = createClient();
@@ -35,7 +35,7 @@ export default async function Players() {
         <div className="w-1/2 h-full p-6 space-y-4">
           {players &&
             players.map((player) => (
-              <PlayerCard key={player.id} player={player} />
+              <PlayerHoverCard key={player.id} player={player} />
             ))}
         </div>
         <div className="w-1/2 h-full flex justify-center pt-14 px-4">

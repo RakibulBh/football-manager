@@ -18,22 +18,20 @@ export default function Dropdown({ user }: { user: any }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="flex gap-x-4 bg-[#7258F4] hover:bg-[#]">
+        <Button className="flex gap-x-4 bg-[#7258F4] hover:bg-[#] w-full">
           <CircleUser />
-          <p className="text-white">Admin Login</p>
+          <p className="text-white">{!user ? "Not logged on" : user.email}</p>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel className="text-xs">
-          {user ? user.email : "Not logged on"}
-        </DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xs">Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex items-center justify-center">
+        <DropdownMenuItem className="w-full flex items-center justify-center">
           {user ? (
             <LogoutButton />
           ) : (
             <Link href="/login">
-              <Button>Login</Button>
+              <Button className="w-full">Login</Button>
             </Link>
           )}
         </DropdownMenuItem>
