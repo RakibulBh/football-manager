@@ -30,9 +30,9 @@ function LeaderboardTable({ players }: { players: any }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {players.map((player: any) => (
+        {players.map((player: any, index: any) => (
           <TableRow key={player.id}>
-            <TableCell className="font-medium">1</TableCell>
+            <TableCell className="font-medium">{index + 1}</TableCell>
             <TableCell>{player.name}</TableCell>
             <TableCell>{player.position}</TableCell>
             <TableCell>0</TableCell>
