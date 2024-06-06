@@ -30,29 +30,24 @@ export const EditFixture = async ({ id }: { id: number }) => {
     .select('*')
     .eq('match_id', id);
 
-  console.log(data);
-
   if (error) {
     return <p>ERROR: {error.message}</p>;
   }
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>
-          <Pencil size={20} />
-        </Button>
+      <DialogTrigger>
+        <Pencil size={20} />
       </DialogTrigger>
       <DialogContent className='text-black'>
         <DialogHeader>
           <DialogTitle>Fixture Match</DialogTitle>
-          <div>
-            <div className='flex justify-between'>
-              <h3>{data[0] && data[0].name}</h3>
-              <h3>{data[1] && data[1].name}</h3>
+          <form action=''>
+            <div>
+              <div></div>
+              <div></div>
             </div>
-            <form></form>
-          </div>
+          </form>
         </DialogHeader>
       </DialogContent>
     </Dialog>
