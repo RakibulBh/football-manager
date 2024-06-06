@@ -8,7 +8,13 @@ export default function PlayerLeaderboardCard({ player }: { player: any }) {
         <p>1</p>
         <div className="flex gap-x-4">
           <Avatar>
-            <AvatarImage src="https://github.com/vercel.png" />
+            <AvatarImage
+              src={
+                player.profileUrl !== "undefined"
+                  ? "/sabit.jpg"
+                  : "https://github.com/vercel.png"
+              }
+            />
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">

@@ -15,8 +15,17 @@ export function PlayerHoverCard({ player }: { player: any }) {
     <HoverCard>
       <HoverCardTrigger asChild>
         <div className="w-full rounded-md bg-[#725BF4] py-2 px-4 flex items-center justify-between">
-          <div className="flex gap-x-2">
-            <User />
+          <div className="flex gap-x-2 items-center">
+            <Avatar>
+              <AvatarImage
+                src={
+                  player.profileUrl !== "undefined"
+                    ? "/sabit.jpg"
+                    : "https://github.com/vercel.png"
+                }
+              />
+              <AvatarFallback>VC</AvatarFallback>
+            </Avatar>
             <h1>{player.name}</h1>
           </div>
           <p>{player.position}</p>
@@ -25,7 +34,13 @@ export function PlayerHoverCard({ player }: { player: any }) {
       <HoverCardContent className="w-80">
         <div className="flex space-x-4">
           <Avatar>
-            <AvatarImage src="https://github.com/vercel.png" />
+            <AvatarImage
+              src={
+                player.profileUrl !== "undefined"
+                  ? "/sabit.jpg"
+                  : "https://github.com/vercel.png"
+              }
+            />
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>
           <div className="space-y-1">

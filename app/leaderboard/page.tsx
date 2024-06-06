@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { Database } from "@/types/supabase";
 import { getPlayers } from "../players/actions";
 import PlayerLeaderboardCard from "./player-leaderboard-card";
 
@@ -30,7 +31,7 @@ function LeaderboardTable({ players }: { players: any }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {players.map((player: any, index: any) => (
+        {players.map((player: any, index: number) => (
           <TableRow key={player.id}>
             <TableCell className="font-medium">{index + 1}</TableCell>
             <TableCell>{player.name}</TableCell>
