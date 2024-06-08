@@ -82,6 +82,11 @@ export const getTeamByMatchId = async (id: number) => {
   };
 };
 
-export const editFixture = async (formData: FormData) => {
-  console.log(formData);
+export const editFixture = async (
+  userId: any,
+  prevData: any,
+  formData: FormData
+) => {
+  console.log(userId, formData);
+  return { message: '', status: 200 };
 };

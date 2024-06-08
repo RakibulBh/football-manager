@@ -22,7 +22,6 @@ const FixtureTopBar = async () => {
         <h2 className='text-2xl font-semibold'>Fixtures</h2>
       </div>
       {!error && data?.user && <FixtureDialog />}
-      <FixtureDialog />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { getFixturesById, getTeamByMatchId } from '../actions';
 import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import { EditFixtureForm } from './edit-fixture-form';
+import { getPlayers } from '@/app/players/actions';
 
 const FixtureTopBar = async () => {
   return (
@@ -14,7 +15,7 @@ const FixtureTopBar = async () => {
         <Link href='/fixtures'>
           <ArrowLeft size={40} />
         </Link>
-        <h2 className='text-2xl font-semibold'>Fixtures</h2>
+        <h2 className='text-2xl font-semibold'>Editing Fixtures</h2>
       </div>
       <div>
         <Button variant='outline'>Remove Match</Button>
@@ -28,11 +29,12 @@ const FixtureTopBar = async () => {
 
 const EditFixture = async ({ params }: { params: { id: string } }) => {
   const { team1, team2 } = await getTeamByMatchId(Number(params.id));
+  const players = await getPlayers();
 
   return (
     <div>
       <FixtureTopBar />
-      <EditFixtureForm team1={team1} team2={team2} />
+      <EditFixtureForm team1={team1} team2={team2} players={players} />
     </div>
   );
 };

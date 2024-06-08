@@ -1,72 +1,78 @@
 'use client';
 
-import Image from 'next/image';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { editFixture } from '../actions';
-import { Input } from '@/components/ui/input';
-import { getPlayers } from '@/app/players/actions';
+import { useFormState } from 'react-dom';
+import { DisplayPlayers } from './display-players';
+import { DialogAddPlayer } from './add-dialog-player';
+import { DatabasePlayers, DatabaseTeam, Players } from './types';
+import { DisplayTeams } from './display-teams';
 
-type TeamType = {
-  id: number;
-  name: string;
-  match_id: string;
-  score: number;
+export type EditFixtureFormProps = {
+  team1: DatabaseTeam;
+  team2: DatabaseTeam;
+  players: DatabasePlayers[];
 };
 
-type EditFixtureFormProps = {
-  team1: TeamType;
-  team2: TeamType;
-};
-
-export const EditFixtureForm = ({ team1, team2 }: EditFixtureFormProps) => {
-  const [teamInformation, setTeamInformation] = useState({
-    team1: {
-      name: '',
-      players: [],
-    },
-    team2: {
-      name: '',
-      players: [],
-    },
+export const EditFixtureForm = ({
+  team1,
+  team2,
+  players,
+}: EditFixtureFormProps) => {
+  const [teamNames, setTeamNames] = useState({
+    teamA: team1?.name.length ? team1.name : '',
+    teamB: team2?.name.length ? team2.name : '',
   });
 
-  const playersInputs = [];
+  const [teamAPlayers, setTeamAPlayers] = useState<Players[]>([]);
+  const [teamBPlayers, setTeamBPlayers] = useState<Players[]>([]);
+  const teamInformation = { teamA: teamAPlayers, teamB: teamBPlayers };
 
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    console.log('hello world');
-  };
-
-  useEffect(() => {
-    callPlayers();
+  const appendPlayers = editFixture.bind(null, teamInformation);
+  const [state, formAction] = useFormState(appendPlayers, {
+    message: '',
+    status: 200,
   });
 
-  const callPlayers = async () => {
-    const res = await getPlayers();
-    console.log(res);
+  const handleNameChangeInput = (e: FormEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+    setTeamNames((prevState) => ({ ...prevState, [name]: value }));
   };
+
+  console.log(team1);
 
   return (
-    <form id='edit-form' action={editFixture}>
+    <form id='edit-form' action={formAction}>
+      <input type='hidden' name='matchId' value={team1.match_id} />
       <div>
-        <div className=''>
-          <Image alt='Team logo' width={40} height={40} src='/inter.png' />
-          <Input type='text' name='team1Name' />
-          <div>
-            <h2>Add Players</h2>
-            <div className=''>
-              <input type='text' name='player1' />
-              <input type='text' name='player2' />
-              <input type='text' name='player3' />
-              <input type='text' name='player4' />
-              <input type='text' name='player5' />
+        <div className='w-11/12 mx-auto'>
+          <DisplayTeams
+            nameA={teamNames.teamA}
+            nameB={teamNames.teamB}
+            handleNameChangeInput={handleNameChangeInput}
+          />
+
+          <div className='flex justify-between space-x-3'>
+            <div className='flex-1'>
+              <DisplayPlayers players={teamAPlayers} flipped={false} />
+              <DialogAddPlayer
+                name={team1.name}
+                players={players}
+                teamId={team1.id}
+                setMyPlayers={setTeamAPlayers}
+              />
+            </div>
+
+            <div className='flex-1'>
+              <DisplayPlayers players={teamBPlayers} flipped={true} />
+              <DialogAddPlayer
+                name={team2.name}
+                players={players}
+                teamId={team2.id}
+                setMyPlayers={setTeamBPlayers}
+              />
             </div>
           </div>
-        </div>
-
-        <div>
-          <Image alt='Team logo' width={40} height={40} src='/inter.png' />
-          <Input type='text' name='team2Name' />
         </div>
       </div>
     </form>
