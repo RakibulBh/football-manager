@@ -1,11 +1,11 @@
-"use server";
-import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
+'use server';
+import { createClient } from '@/utils/supabase/server';
+import { revalidatePath } from 'next/cache';
 
 export async function getPlayers() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from("Players").select("*");
+  const { data, error } = await supabase.from('Players').select('*');
 
   if (error) {
     throw error;
@@ -14,21 +14,25 @@ export async function getPlayers() {
   return data;
 }
 
+export const getUnselectedPlayers = async () => {
+  const supabase = createClient();
+};
+
 export async function createPlayer(formData: FormData) {
   const supabase = createClient();
 
-  const name = formData.get("name");
-  const position = formData.get("position");
-  const profileUrlEntry = formData.get("profileUrl");
+  const name = formData.get('name');
+  const position = formData.get('position');
+  const profileUrlEntry = formData.get('profileUrl');
 
-  let profileUrl = "";
+  let profileUrl = '';
   if (profileUrlEntry instanceof File) {
     profileUrl = profileUrlEntry.name;
-  } else if (typeof profileUrlEntry === "string") {
+  } else if (typeof profileUrlEntry === 'string') {
     profileUrl = profileUrlEntry;
   }
 
-  const { data, error } = await supabase.from("Players").insert({
+  const { data, error } = await supabase.from('Players').insert({
     name,
     position,
     profileUrl,
@@ -38,6 +42,6 @@ export async function createPlayer(formData: FormData) {
     throw error;
   }
 
-  revalidatePath("/players");
+  revalidatePath('/players');
   return data;
 }

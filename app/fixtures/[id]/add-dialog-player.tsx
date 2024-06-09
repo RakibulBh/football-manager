@@ -8,42 +8,30 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Dispatch, SetStateAction, useState } from 'react';
-
-type DatabasePlayers = {
-  id: number;
-  name: string;
-  position: string;
-  profileUrl: string;
-};
-
-type Players = {
-  name: string;
-  position: string;
-  teamId: number;
-};
+import { DatabasePlayers } from './types';
 
 type DialogAddPlayerProps = {
-  teamId: number;
   name: string;
   players: DatabasePlayers[];
-  setMyPlayers: Dispatch<SetStateAction<Players[]>>;
+  setMyPlayers: Dispatch<SetStateAction<DatabasePlayers[]>>;
+  setShowTeamPlayers: Dispatch<SetStateAction<DatabasePlayers[]>>;
 };
 
 export const DialogAddPlayer = ({
   name,
-  teamId,
   players,
   setMyPlayers,
+  setShowTeamPlayers,
 }: DialogAddPlayerProps) => {
-  const [savedPlayers, setSavedPlayers] = useState<Players[]>([]);
+  const [savedPlayers, setSavedPlayers] = useState<DatabasePlayers[]>([]);
 
-  const handleClickPlayers = (name: string, position: string) => {
+  const handleClickPlayers = (id: string, name: string, position: string) => {
     setSavedPlayers((prevState) => [
       ...prevState,
       {
+        id,
         name,
         position,
-        teamId,
       },
     ]);
   };
@@ -51,9 +39,7 @@ export const DialogAddPlayer = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className='text-center'>
-          <Button>Add player to {name}</Button>
-        </div>
+        <Button>Add player to {name}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -65,7 +51,9 @@ export const DialogAddPlayer = ({
               key={item.id}
               variant='secondary'
               className='text-black w-1/2 flex justify-between'
-              onClick={() => handleClickPlayers(item.name, item.position)}
+              onClick={() =>
+                handleClickPlayers(item.id, item.name, item.position)
+              }
             >
               <span>{item.name}</span> <span>{item.position}</span>
             </Button>
@@ -75,6 +63,11 @@ export const DialogAddPlayer = ({
           <Button
             onClick={() => {
               setMyPlayers((prevState) => [...prevState, ...savedPlayers]);
+              setShowTeamPlayers((prevState) => [
+                ...prevState,
+                ...savedPlayers,
+              ]);
+
               setSavedPlayers([]);
             }}
           >

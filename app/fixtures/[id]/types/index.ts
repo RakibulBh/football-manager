@@ -1,19 +1,14 @@
 export type DatabaseTeam = {
-  id: number;
+  id: string;
   name: string;
   match_id: string;
   score: number;
+  Players: DatabasePlayers[];
 };
 
 export type DatabasePlayers = {
-  id: number;
+  id: string;
   name: string;
   position: string;
-  profileUrl: string;
-};
-
-export type Players = {
-  name: string;
-  position: string;
-  teamId: number;
+  profileUrl?: string | null;
 };

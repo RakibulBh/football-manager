@@ -1,36 +1,55 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { editFixture } from '../actions';
 import { useFormState } from 'react-dom';
 import { DisplayPlayers } from './display-players';
 import { DialogAddPlayer } from './add-dialog-player';
-import { DatabasePlayers, DatabaseTeam, Players } from './types';
+import { DatabasePlayers, DatabaseTeam } from './types';
 import { DisplayTeams } from './display-teams';
 
 export type EditFixtureFormProps = {
-  team1: DatabaseTeam;
-  team2: DatabaseTeam;
-  players: DatabasePlayers[];
+  matchId: number;
+  team1?: DatabaseTeam;
+  team2?: DatabaseTeam;
+  availablePlayers: DatabasePlayers[];
 };
 
 export const EditFixtureForm = ({
+  matchId,
   team1,
   team2,
-  players,
+  availablePlayers: players,
 }: EditFixtureFormProps) => {
   const [teamNames, setTeamNames] = useState({
-    teamA: team1?.name.length ? team1.name : '',
-    teamB: team2?.name.length ? team2.name : '',
+    teamA: team1?.name ?? '',
+    teamB: team2?.name ?? '',
   });
 
-  const [teamAPlayers, setTeamAPlayers] = useState<Players[]>([]);
-  const [teamBPlayers, setTeamBPlayers] = useState<Players[]>([]);
+  const [teamAPlayers, setTeamAPlayers] = useState<DatabasePlayers[]>([]);
+  const [teamBPlayers, setTeamBPlayers] = useState<DatabasePlayers[]>([]);
   const teamInformation = { teamA: teamAPlayers, teamB: teamBPlayers };
+
+  const [showTeamAPlayers, setShowTeamAPlayers] = useState<DatabasePlayers[]>(
+    []
+  );
+  const [showTeamBPlayers, setShowTeamBPlayers] = useState<DatabasePlayers[]>(
+    []
+  );
+
+  useEffect(() => {
+    if (team1?.Players) {
+      setShowTeamAPlayers([...team1.Players]);
+    }
+    if (team2?.Players) {
+      setShowTeamBPlayers([...team2.Players]);
+    }
+  }, []);
 
   const appendPlayers = editFixture.bind(null, teamInformation);
   const [state, formAction] = useFormState(appendPlayers, {
     message: '',
+    error: null,
     status: 200,
   });
 
@@ -39,11 +58,9 @@ export const EditFixtureForm = ({
     setTeamNames((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  console.log(team1);
-
   return (
     <form id='edit-form' action={formAction}>
-      <input type='hidden' name='matchId' value={team1.match_id} />
+      <input type='hidden' name='matchId' value={matchId} />
       <div>
         <div className='w-11/12 mx-auto'>
           <DisplayTeams
@@ -54,22 +71,26 @@ export const EditFixtureForm = ({
 
           <div className='flex justify-between space-x-3'>
             <div className='flex-1'>
-              <DisplayPlayers players={teamAPlayers} flipped={false} />
+              <DisplayPlayers
+                players={showTeamAPlayers}
+                flipped={false}
+                teamId={team1?.id}
+              />
               <DialogAddPlayer
-                name={team1.name}
+                name={teamNames.teamA}
                 players={players}
-                teamId={team1.id}
                 setMyPlayers={setTeamAPlayers}
+                setShowTeamPlayers={setShowTeamAPlayers}
               />
             </div>
 
             <div className='flex-1'>
-              <DisplayPlayers players={teamBPlayers} flipped={true} />
+              <DisplayPlayers players={showTeamBPlayers} flipped={true} />
               <DialogAddPlayer
-                name={team2.name}
+                name={teamNames.teamB}
                 players={players}
-                teamId={team2.id}
                 setMyPlayers={setTeamBPlayers}
+                setShowTeamPlayers={setShowTeamBPlayers}
               />
             </div>
           </div>

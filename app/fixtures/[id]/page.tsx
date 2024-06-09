@@ -29,12 +29,17 @@ const FixtureTopBar = async () => {
 
 const EditFixture = async ({ params }: { params: { id: string } }) => {
   const { team1, team2 } = await getTeamByMatchId(Number(params.id));
-  const players = await getPlayers();
+  const allPlayers = await getPlayers();
 
   return (
     <div>
       <FixtureTopBar />
-      <EditFixtureForm team1={team1} team2={team2} players={players} />
+      <EditFixtureForm
+        matchId={Number(params.id)}
+        team1={team1}
+        team2={team2}
+        availablePlayers={allPlayers}
+      />
     </div>
   );
 };
