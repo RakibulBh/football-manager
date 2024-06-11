@@ -1,11 +1,9 @@
-import MatchSummary from '@/components/match-summary';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { getFixturesById, getTeamByMatchId } from '../actions';
-import { Tables } from '@/types/supabase';
-import Image from 'next/image';
+import { getTeamByMatchId } from '../actions';
 import { EditFixtureForm } from './edit-fixture-form';
+import { getPlayers, getUnselectedPlayers } from '@/app/players/actions';
 
 const FixtureTopBar = async () => {
   return (
@@ -14,7 +12,7 @@ const FixtureTopBar = async () => {
         <Link href='/fixtures'>
           <ArrowLeft size={40} />
         </Link>
-        <h2 className='text-2xl font-semibold'>Fixtures</h2>
+        <h2 className='text-2xl font-semibold'>Editing Fixtures</h2>
       </div>
       <div>
         <Button variant='outline'>Remove Match</Button>
@@ -27,12 +25,27 @@ const FixtureTopBar = async () => {
 };
 
 const EditFixture = async ({ params }: { params: { id: string } }) => {
-  const { team1, team2 } = await getTeamByMatchId(Number(params.id));
+  const { teamA, teamB } = await getTeamByMatchId(Number(params.id));
+  const availablePlayers = await getUnselectedPlayers(teamA.id, teamB.id);
+
+  // console.log(teamA, 'this is team1');
+  // console.log(teamB, 'this is team2');
+  // console.log(allPlayers, 'this is all players');
+
+  // all players
+  // see if players are in team_players
+  // append those that are not in an array
+  //
 
   return (
     <div>
       <FixtureTopBar />
-      <EditFixtureForm team1={team1} team2={team2} />
+      <EditFixtureForm
+        matchId={Number(params.id)}
+        team1={teamA}
+        team2={teamB}
+        availablePlayers={availablePlayers!}
+      />
     </div>
   );
 };

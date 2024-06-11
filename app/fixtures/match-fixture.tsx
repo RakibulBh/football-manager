@@ -37,15 +37,16 @@ export default async function MatchFixture({
           <p className='text-md'>No League</p>
           <p className='text-sm text-[#535360]'>Matchday 1</p>
         </div>
-        {!error && data?.user && <EditFixture id={id} />}
-        <div className='flex space-x-5'>
-          <Trash2 />
-          <button>
-            <Link href={`/fixtures/${id}`}>
-              <Pencil size={20} />
-            </Link>
-          </button>
-        </div>
+        {!error && data?.user && (
+          <div className='flex space-x-5'>
+            <Trash2 />
+            <button>
+              <Link href={`/fixtures/${id}`}>
+                <Pencil size={20} />
+              </Link>
+            </button>
+          </div>
+        )}
       </div>
       <div className='flex p-2'>
         <DisplayTeams teams={teams} />
