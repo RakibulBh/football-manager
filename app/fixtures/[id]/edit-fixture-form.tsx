@@ -19,7 +19,7 @@ export const EditFixtureForm = ({
   matchId,
   team1,
   team2,
-  availablePlayers: players,
+  availablePlayers,
 }: EditFixtureFormProps) => {
   const [teamNames, setTeamNames] = useState({
     teamA: team1?.name ?? '',
@@ -37,12 +37,19 @@ export const EditFixtureForm = ({
     []
   );
 
+  const [availablePlayerState, setAvailablePlayersState] = useState<
+    DatabasePlayers[]
+  >([]);
+
   useEffect(() => {
     if (team1?.Players) {
       setShowTeamAPlayers([...team1.Players]);
     }
     if (team2?.Players) {
       setShowTeamBPlayers([...team2.Players]);
+    }
+    if (availablePlayers.length) {
+      setAvailablePlayersState([...availablePlayers]);
     }
   }, []);
 
@@ -57,6 +64,12 @@ export const EditFixtureForm = ({
     const { name, value } = e.currentTarget;
     setTeamNames((prevState) => ({ ...prevState, [name]: value }));
   };
+
+  const handleMovePlayer = (
+    userId: string,
+    player: DatabasePlayers,
+    teamSide: 'A' | 'B'
+  ) => {};
 
   return (
     <form id='edit-form' action={formAction}>
@@ -75,22 +88,34 @@ export const EditFixtureForm = ({
                 players={showTeamAPlayers}
                 flipped={false}
                 teamId={team1?.id}
+                setPlayer={setTeamAPlayers}
+                setShowTeamPlayers={setShowTeamAPlayers}
+                handleMovePlayer={handleMovePlayer}
               />
               <DialogAddPlayer
                 name={teamNames.teamA}
-                players={players}
+                players={availablePlayerState}
                 setMyPlayers={setTeamAPlayers}
                 setShowTeamPlayers={setShowTeamAPlayers}
+                setAvailablePlayersState={setAvailablePlayersState}
               />
             </div>
 
             <div className='flex-1'>
-              <DisplayPlayers players={showTeamBPlayers} flipped={true} />
+              <DisplayPlayers
+                players={showTeamBPlayers}
+                flipped={true}
+                teamId={team2?.id}
+                setPlayer={setTeamBPlayers}
+                setShowTeamPlayers={setShowTeamBPlayers}
+                handleMovePlayer={handleMovePlayer}
+              />
               <DialogAddPlayer
                 name={teamNames.teamB}
-                players={players}
+                players={availablePlayerState}
                 setMyPlayers={setTeamBPlayers}
                 setShowTeamPlayers={setShowTeamBPlayers}
+                setAvailablePlayersState={setAvailablePlayersState}
               />
             </div>
           </div>

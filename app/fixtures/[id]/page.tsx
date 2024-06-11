@@ -1,12 +1,9 @@
-import MatchSummary from '@/components/match-summary';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { getFixturesById, getTeamByMatchId } from '../actions';
-import { Tables } from '@/types/supabase';
-import Image from 'next/image';
+import { getTeamByMatchId } from '../actions';
 import { EditFixtureForm } from './edit-fixture-form';
-import { getPlayers } from '@/app/players/actions';
+import { getPlayers, getUnselectedPlayers } from '@/app/players/actions';
 
 const FixtureTopBar = async () => {
   return (
@@ -28,17 +25,26 @@ const FixtureTopBar = async () => {
 };
 
 const EditFixture = async ({ params }: { params: { id: string } }) => {
-  const { team1, team2 } = await getTeamByMatchId(Number(params.id));
-  const allPlayers = await getPlayers();
+  const { teamA, teamB } = await getTeamByMatchId(Number(params.id));
+  const availablePlayers = await getUnselectedPlayers(teamA.id, teamB.id);
+
+  // console.log(teamA, 'this is team1');
+  // console.log(teamB, 'this is team2');
+  // console.log(allPlayers, 'this is all players');
+
+  // all players
+  // see if players are in team_players
+  // append those that are not in an array
+  //
 
   return (
     <div>
       <FixtureTopBar />
       <EditFixtureForm
         matchId={Number(params.id)}
-        team1={team1}
-        team2={team2}
-        availablePlayers={allPlayers}
+        team1={teamA}
+        team2={teamB}
+        availablePlayers={availablePlayers!}
       />
     </div>
   );

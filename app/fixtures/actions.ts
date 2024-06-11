@@ -87,26 +87,8 @@ export const getTeamByMatchId = async (id: number) => {
   }
 
   return {
-    team1: data[0],
-    team2: data[1],
-  };
-};
-
-export const getTeamPlayers = async (id: number) => {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
-    .from('Teams')
-    .select('*')
-    .eq('match_id', id);
-
-  if (error) {
-    throw error;
-  }
-
-  return {
-    team1: data[0],
-    team2: data[1],
+    teamA: data[0],
+    teamB: data[1],
   };
 };
 
@@ -144,14 +126,13 @@ const createTeamIfNotExist = async (
 const updateTeamsName = async (name: string, teamId: string) => {
   const supabase = createClient();
 
-  // const { team: createTeamA, error: createTeamAError } =
-  //     await createTeamIfNotExist(team, name, matchId);
-
   return await supabase.from('Teams').update({ name }).eq('id', teamId);
 };
 
 const addPlayersToTeam = async (players: DatabasePlayers[], teamId: string) => {
   const supabase = createClient();
+
+  console.log(players);
 
   for (const player of players) {
     const { error } = await supabase
@@ -170,11 +151,6 @@ const addPlayersToTeam = async (players: DatabasePlayers[], teamId: string) => {
   };
   // supabase.from('Team_Player').update({ name }).eq('id', 'teamId');
 };
-
-// const AA = async (team: {}, name: string, matchId: string) => {
-//   const { team: createTeamA, error: createTeamAError } =
-//       await createTeamIfNotExist(team, name, matchId);
-// }
 
 export const editFixture = async (
   players: any,
@@ -296,9 +272,29 @@ export const removePlayerFromTeam = async (userId: string, teamId: string) => {
   const supabase = createClient();
 
   try {
-    const response = await supabase
+    const { data, error } = await supabase
       .from('Team_Player')
       .delete()
       .eq('player_id', userId);
-  } catch (error) {}
+
+    if (error) {
+      return {
+        message: 'failed to delete player',
+        error,
+        status: 400,
+      };
+    }
+
+    return {
+      message: 'removed player from team',
+      error: null,
+      status: 200,
+    };
+  } catch (error) {
+    return {
+      message: 'error occured while deleting player',
+      error,
+      status: 400,
+    };
+  }
 };

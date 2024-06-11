@@ -1,20 +1,38 @@
+'use client';
+
 import { MoveLeft, MoveRight, Trash2 } from 'lucide-react';
 import { DatabasePlayers } from './types';
 import { removePlayerFromTeam } from '../actions';
+import { Dispatch, SetStateAction } from 'react';
 
 type DisplayPlayersProps = {
   players?: DatabasePlayers[];
   flipped?: boolean;
   teamId?: string;
+  setShowTeamPlayers: Dispatch<SetStateAction<DatabasePlayers[]>>;
+  setPlayer: Dispatch<SetStateAction<DatabasePlayers[]>>;
+  handleMovePlayer: (
+    id: string,
+    team: DatabasePlayers,
+    teamSide: 'A' | 'B'
+  ) => void;
 };
 
 export const DisplayPlayers = ({
   players,
   flipped = false,
   teamId,
+  setPlayer,
+  setShowTeamPlayers,
+  handleMovePlayer,
 }: DisplayPlayersProps) => {
   const handleRemovePlayer = async (id: string) => {
-    await removePlayerFromTeam(id, teamId!);
+    if (teamId) {
+      const { error, message, status } = await removePlayerFromTeam(id, teamId);
+    }
+
+    setShowTeamPlayers(() => players!.filter((item) => item.id !== id));
+    setPlayer(() => players!.filter((item) => item.id !== id));
   };
 
   return (
@@ -26,10 +44,13 @@ export const DisplayPlayers = ({
               <>
                 <h2 className='text-xl'>{item.name}</h2>
                 <div className='space-x-3'>
-                  <button onClick={() => handleRemovePlayer(item.id)}>
+                  <button
+                    type='button'
+                    onClick={() => handleRemovePlayer(item.id)}
+                  >
                     <Trash2 />
                   </button>
-                  <button>
+                  <button onClick={() => handleMovePlayer(item.id, item, 'A')}>
                     <MoveRight />
                   </button>
                 </div>
@@ -37,10 +58,13 @@ export const DisplayPlayers = ({
             ) : (
               <>
                 <div className='space-x-3'>
-                  <button>
+                  <button onClick={() => handleMovePlayer(item.id, item, 'B')}>
                     <MoveLeft />
                   </button>
-                  <button>
+                  <button
+                    type='button'
+                    onClick={() => handleRemovePlayer(item.id)}
+                  >
                     <Trash2 />
                   </button>
                 </div>
